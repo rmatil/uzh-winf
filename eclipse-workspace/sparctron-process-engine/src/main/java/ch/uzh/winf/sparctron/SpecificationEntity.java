@@ -17,6 +17,7 @@ public class SpecificationEntity implements Serializable {
 
 	@Version
 	protected long version;
+	
 	protected String customer;
 	protected String specification;
 
