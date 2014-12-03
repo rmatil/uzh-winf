@@ -46,31 +46,31 @@ public class EnterBomBusinessLogic {
 		
 		for (int i = 0; i < amountOfTransistorBc547; i++) {
 			Material m = new Material();
-			m.setId(1L);
+			m.setId(1);
 			m.setDescription("Transistor (BC547)");
 			bomEntity.getMaterials().add(m);
 		}
 		for (int i = 0; i < amountOfTransistor2N3055; i++) {
 			Material m = new Material();
-			m.setId(2L);
+			m.setId(2);
 			m.setDescription("Transistor (2N3055)");
 			bomEntity.getMaterials().add(m);
 		}
 		for (int i = 0; i < amountOfDiode1n4004; i++) {
 			Material m = new Material();
-			m.setId(3L);
+			m.setId(3);
 			m.setDescription("Diode (1N4004)");
 			bomEntity.getMaterials().add(m);
 		}
 		for (int i = 0; i < amountOfCondensator100Uf; i++) {
 			Material m = new Material();
-			m.setId(4L);
+			m.setId(4);
 			m.setDescription("Kondensator (100uF)");
 			bomEntity.getMaterials().add(m);
 		}
 		for (int i = 0; i < amountOfResistance470; i++) {
 			Material m = new Material();
-			m.setId(5L);
+			m.setId(5);
 			m.setDescription("Widerstand Kohleschicht (470 Ohm 5%)");
 			bomEntity.getMaterials().add(m);
 		}

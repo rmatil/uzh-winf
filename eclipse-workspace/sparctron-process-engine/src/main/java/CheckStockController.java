@@ -1,5 +1,4 @@
 
- 
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -11,41 +10,64 @@ import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.BusinessProcess;
 
-import ch.uzh.winf.sparctron.entity.SpecificationEntity;
-import ch.uzh.winf.sparctron.logic.DefineSpecificationBusinessLogic;
- 
+import ch.uzh.winf.sparctron.dao.Material;
+import ch.uzh.winf.sparctron.entity.BillOfMaterialEntity;
+import ch.uzh.winf.sparctron.logic.EnterBomBusinessLogic;
+import ch.uzh.winf.stockservice.StockService;
+import ch.uzh.winf.stockservice.StockServiceImplService;
+
+
 @Named
 @ConversationScoped
-public class CheckStockController implements Serializable {
- 
-  private static  final long serialVersionUID = 1L;
- 
-  // Inject the BusinessProcess to access the process variables
-  @Inject
-  private BusinessProcess businessProcess;
- 
-  // Inject the EntityManager to access the persisted order
-  @PersistenceContext
-  private EntityManager entityManager;
- 
-  // Inject the OrderBusinessLogic to update the persisted order
-  @Inject
-  private DefineSpecificationBusinessLogic defineSpecificationBusinessLogic;
- 
-  // Caches the OrderEntity during the conversation
-  private SpecificationEntity specificationEntity;
- 
-  public SpecificationEntity getSpecificationEntity() {
-    if (specificationEntity == null) {
-      // Load the order entity from the database if not already cached
-      specificationEntity = defineSpecificationBusinessLogic.getSpecification((Long) businessProcess.getVariable("specificationId"));
+public class CheckStockController
+        implements Serializable {
+
+    private static final long     serialVersionUID = 1L;
+
+    // Inject the BusinessProcess to access the process variables
+    @Inject
+    private BusinessProcess       businessProcess;
+
+    // Inject the EntityManager to access the persisted order
+    @PersistenceContext
+    private EntityManager         entityManager;
+
+    // Inject the OrderBusinessLogic to update the persisted order
+    @Inject
+    private EnterBomBusinessLogic enterBomBusinessLogic;
+
+    // Caches the OrderEntity during the conversation
+    private BillOfMaterialEntity  billOfMaterialEntity;
+
+    public BillOfMaterialEntity getBillOfMaterialEntity() {
+        if (billOfMaterialEntity == null) {
+            // Load the order entity from the database if not already cached
+            billOfMaterialEntity = enterBomBusinessLogic.getBillOfMaterialEntity((Long) businessProcess.getVariable("bomId"));
+        }
+
+        return billOfMaterialEntity;
     }
-    
-    return specificationEntity;
-  }
- 
-  public void submitForm() throws IOException {
-    // Persist updated order entity and complete task form
-    defineSpecificationBusinessLogic.mergeSpecificationAndCompleteTask(specificationEntity);
-  }
+
+    public void submitForm()
+            throws IOException {
+        
+        checkAvailability(billOfMaterialEntity);
+        
+        // Persist updated order entity and complete task form
+        enterBomBusinessLogic.mergeBillOfMaterialAndCompleteTask(billOfMaterialEntity);
+    }
+
+    private void checkAvailability(BillOfMaterialEntity bom) {
+        StockServiceImplService sis = new StockServiceImplService();
+        StockService s = sis.getStockServiceImplPort();
+        
+        for (Material m : bom.getMaterials()) {
+            if (s.getQuantityInStock(m.getId()) < 1) {
+                bom.setAllMaterialsAvailable(false);
+                break;
+            }
+        }
+
+        bom.setAllMaterialsAvailable(true);
+    }
 }

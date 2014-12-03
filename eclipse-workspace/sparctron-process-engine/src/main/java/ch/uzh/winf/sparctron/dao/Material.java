@@ -2,17 +2,17 @@ package ch.uzh.winf.sparctron.dao;
 
 public class Material {
 	
-	private long id;
+	private int id;
 	private String description;
 	
 	public Material() {
 		
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getDescription() {
