@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view>
+<f:metadata>
+<!-- Start a new process instance. The Process Definition Key is read internally from
+request parameters and cached in the CDI conversation scope.
+-->
+<f:event type="preRenderView" listener="#{camundaTaskForm.startTaskForm()}" />
+</f:metadata>
+<h:head>
+<title>Enter </title>
+</h:head>
+<h:body>
+<h1>Select your first </h1>
+<h:form id="submitForm">
+<h:panelGrid columns="2">
+<p>
+    <label for="material1">Transistor BC547</label>
+    <!-- create process variables using the processVariables map. -->
+    <h:inputText type="number" id="material1" value="#{processVariables['transistor-bc547']}" required="true" />
+    </h:selectOneMenu>
+</p>
+<p>
+    <label for="material1">Transistor 2N3055</label>
+    <!-- create process variables using the processVariables map. -->
+    <h:inputText type="number" id="material1" value="#{processVariables['transistor-2n3055']}" required="true" />
+</h:selectOneMenu>
+</p>
+<p>
+    <label for="material1">Diode 1N4004</label>
+    <!-- create process variables using the processVariables map. -->
+    <h:inputText type="number" id="material1" value="#{processVariables['diode-1n4004']}" required="true" />
+</h:selectOneMenu>
+</p>
+<p>
+    <label for="material1">Kondensator 100uF</label>
+    <!-- create process variables using the processVariables map. -->
+    <h:inputText type="number" id="material1" value="#{processVariables['kondensator-100uf']}" required="true" />
+</h:selectOneMenu>
+</p>
+<p>
+    <label for="material1">Widerstand Kohleschicht 470 Ohm 5%</label>
+    <!-- create process variables using the processVariables map. -->
+    <h:inputText type="number" id="material1" value="#{processVariables['widerstand-kohleschicht-470']}" required="true" />
+</h:selectOneMenu>
+</p>
+
+</h:panelGrid>
+
+<!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
+
+NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
+-->
+<h:commandButton id="submit_button" value="Check availability" action="#{camundaTaskForm.completeProcessInstanceForm()}" />
+
+<h:messages style="color:red;margin:8px;" />
+</h:form>
+</h:body>
+</f:view>
+</html>

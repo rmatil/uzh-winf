@@ -1,13 +1,18 @@
-package ch.uzh.winf.sparctron;
+package ch.uzh.winf.sparctron.entity;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
-import java.io.Serializable;
+
+import ch.uzh.winf.sparctron.dao.Material;
 
 @Entity
-public class SpecificationEntity implements Serializable {
+public class BillOfMaterialEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,8 +23,13 @@ public class SpecificationEntity implements Serializable {
 	@Version
 	protected long version;
 	
-	protected String customer;
+	@OneToMany
+	protected List<Material> materials;
+	
 	protected String specification;
+	
+	
+	
 
 	public Long getId() {
 		return id;
@@ -37,12 +47,12 @@ public class SpecificationEntity implements Serializable {
 		this.version = version;
 	}
 
-	public String getCustomer() {
-		return customer;
+	public List<Material> getMaterials() {
+		return materials;
 	}
 
-	public void setCustomer(String customer) {
-		this.customer = customer;
+	public void setMaterials(List<Material> materials) {
+		this.materials = materials;
 	}
 
 	public String getSpecification() {
@@ -56,5 +66,7 @@ public class SpecificationEntity implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
+	
+	
 }

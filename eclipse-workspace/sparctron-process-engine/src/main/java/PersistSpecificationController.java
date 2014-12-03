@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron;
+
  
 import java.io.IOException;
 import java.io.Serializable;
@@ -10,10 +10,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.BusinessProcess;
+
+import ch.uzh.winf.sparctron.entity.SpecificationEntity;
+import ch.uzh.winf.sparctron.logic.DefineSpecificationBusinessLogic;
  
 @Named
 @ConversationScoped
-public class DefineSpecificationController implements Serializable {
+public class PersistSpecificationController implements Serializable {
  
   private static  final long serialVersionUID = 1L;
  

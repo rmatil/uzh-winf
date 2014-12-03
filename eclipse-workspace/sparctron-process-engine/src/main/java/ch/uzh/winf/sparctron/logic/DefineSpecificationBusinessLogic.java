@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron;
+package ch.uzh.winf.sparctron.logic;
  
 import java.io.IOException;
 import java.util.Map;
@@ -6,12 +6,13 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.jsf.TaskForm;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+
+import ch.uzh.winf.sparctron.entity.SpecificationEntity;
  
 @Stateless
 @Named
