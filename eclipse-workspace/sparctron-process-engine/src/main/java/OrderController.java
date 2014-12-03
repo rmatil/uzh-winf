@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -12,9 +11,6 @@ import org.camunda.bpm.engine.cdi.BusinessProcess;
 
 import ch.uzh.winf.sparctron.entity.OrderEntity;
 import ch.uzh.winf.sparctron.logic.EnterOrderBusinessLogic;
-import ch.uzh.winf.sparctron.model.Material;
-import ch.uzh.winf.stockservice.StockService;
-import ch.uzh.winf.stockservice.StockServiceImplService;
 
 
 @Named
@@ -22,52 +18,31 @@ import ch.uzh.winf.stockservice.StockServiceImplService;
 public class OrderController
         implements Serializable {
 
-    private static final long     serialVersionUID = 1L;
+    private static final long       serialVersionUID = 1L;
 
-    // Inject the BusinessProcess to access the process variables
     @Inject
-    private BusinessProcess       businessProcess;
+    private BusinessProcess         businessProcess;
 
-    // Inject the EntityManager to access the persisted order
     @PersistenceContext
-    private EntityManager         entityManager;
+    private EntityManager           entityManager;
 
-    // Inject the OrderBusinessLogic to update the persisted order
     @Inject
-    private EnterOrderBusinessLogic enterBomBusinessLogic;
+    private EnterOrderBusinessLogic enterOrderBusinessLogic;
 
-    // Caches the OrderEntity during the conversation
-    private OrderEntity  billOfMaterialEntity;
+    private OrderEntity             orderEntity;
 
     public OrderEntity getBillOfMaterialEntity() {
-        if (billOfMaterialEntity == null) {
-            // Load the order entity from the database if not already cached
-            billOfMaterialEntity = enterBomBusinessLogic.getBillOfMaterialEntity((Long) businessProcess.getVariable("bomId"));
+        if (orderEntity == null) {
+            orderEntity = enterOrderBusinessLogic.getOrderEntity((Long) businessProcess.getVariable("bomId"));
         }
 
-        return billOfMaterialEntity;
+        return orderEntity;
     }
 
     public void submitForm()
             throws IOException {
-        
-        checkAvailability(billOfMaterialEntity);
-        
+
         // Persist updated order entity and complete task form
-        enterBomBusinessLogic.mergeBillOfMaterialAndCompleteTask(billOfMaterialEntity);
-    }
-
-    private void checkAvailability(OrderEntity bom) {
-        StockServiceImplService sis = new StockServiceImplService();
-        StockService s = sis.getStockServiceImplPort();
-        
-        for (Material m : bom.getMaterials()) {
-            if (s.getQuantityInStock(m.getId()) < 1) {
-                bom.setAllMaterialsAvailable(false);
-                break;
-            }
-        }
-
-        bom.setAllMaterialsAvailable(true);
+        enterOrderBusinessLogic.mergeOrderAndCompleteTask(orderEntity);
     }
 }

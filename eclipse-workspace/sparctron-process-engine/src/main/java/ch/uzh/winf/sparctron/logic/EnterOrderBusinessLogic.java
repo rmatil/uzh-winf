@@ -14,6 +14,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 import ch.uzh.winf.sparctron.entity.OrderEntity;
 import ch.uzh.winf.sparctron.model.Material;
+import ch.uzh.winf.stockservice.StockService;
+import ch.uzh.winf.stockservice.StockServiceImplService;
 
 
 @Stateless
@@ -32,7 +34,7 @@ public class EnterOrderBusinessLogic {
      * 
      * @param delegateExecution
      */
-    public void persistBom(DelegateExecution delegateExecution) {
+    public void persistOrderEntity(DelegateExecution delegateExecution) {
         // Create new order instance
         OrderEntity orderEntity = new OrderEntity();
 
@@ -93,7 +95,7 @@ public class EnterOrderBusinessLogic {
      * @param specificationId
      * @return SpecificationEntity
      */
-    public OrderEntity getBillOfMaterialEntity(Long orderId) {
+    public OrderEntity getOrderEntity(Long orderId) {
         return entityManager.find(OrderEntity.class, orderId);
     }
 
@@ -102,7 +104,7 @@ public class EnterOrderBusinessLogic {
      * 
      * @param orderEntity
      */
-    public void mergeBillOfMaterialAndCompleteTask(OrderEntity orderEntity) {
+    public void mergeOrderAndCompleteTask(OrderEntity orderEntity) {
         entityManager.merge(orderEntity);
 
         try {
@@ -110,6 +112,22 @@ public class EnterOrderBusinessLogic {
         } catch (IOException ioe) {
             throw new RuntimeException("Cannot complete task: mergeOrderEntity", ioe);
         }
+    }
+
+    public void checkAvailability(DelegateExecution delegateExecution) {
+        OrderEntity orderEntity = getOrderEntity((Long) delegateExecution.getVariable("orderId"));
+
+        StockServiceImplService sis = new StockServiceImplService();
+        StockService s = sis.getStockServiceImplPort();
+
+        for (Material m : orderEntity.getMaterials()) {
+            if (s.getQuantityInStock(m.getId()) < 1) {
+                orderEntity.setAllMaterialsAvailable(false);
+                break;
+            }
+        }
+
+        orderEntity.setAllMaterialsAvailable(true);
     }
 
 }

@@ -8,7 +8,7 @@
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:userTask>
-    <bpmn2:serviceTask id="ServiceTask_1" camunda:expression="${enterBomBusinessLogic.persistBillOfMaterial(execution)}" name="Check stock">
+    <bpmn2:serviceTask id="ServiceTask_1" camunda:expression="${enterOrderBusinessLogic.checkAvailability(execution)}" name="Check stock">
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
     </bpmn2:serviceTask>
@@ -19,10 +19,10 @@
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_4" name="" sourceRef="ServiceTask_1" targetRef="ExclusiveGateway_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_6" name="yes" sourceRef="ExclusiveGateway_1" targetRef="ExclusiveGateway_2">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${enterBomBusinessLogic.getBillOfMaterial(bomId).allMaterialsAvailable}</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${enterOrderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="no" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_3">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${not enterBomBusinessLogic.getBillOfMaterial(bomId).allMaterialsAvailable}</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${not enterOrderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:serviceTask id="ServiceTask_3" camunda:expression="${true}" name="Create Order">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
