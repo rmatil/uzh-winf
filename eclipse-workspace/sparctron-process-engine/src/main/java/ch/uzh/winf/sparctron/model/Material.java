@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron.dao;
+package ch.uzh.winf.sparctron.model;
 
 public class Material {
 	

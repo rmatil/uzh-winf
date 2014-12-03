@@ -10,16 +10,16 @@ import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.BusinessProcess;
 
-import ch.uzh.winf.sparctron.dao.Material;
-import ch.uzh.winf.sparctron.entity.BillOfMaterialEntity;
-import ch.uzh.winf.sparctron.logic.EnterBomBusinessLogic;
+import ch.uzh.winf.sparctron.entity.OrderEntity;
+import ch.uzh.winf.sparctron.logic.EnterOrderBusinessLogic;
+import ch.uzh.winf.sparctron.model.Material;
 import ch.uzh.winf.stockservice.StockService;
 import ch.uzh.winf.stockservice.StockServiceImplService;
 
 
 @Named
 @ConversationScoped
-public class CheckStockController
+public class OrderController
         implements Serializable {
 
     private static final long     serialVersionUID = 1L;
@@ -34,12 +34,12 @@ public class CheckStockController
 
     // Inject the OrderBusinessLogic to update the persisted order
     @Inject
-    private EnterBomBusinessLogic enterBomBusinessLogic;
+    private EnterOrderBusinessLogic enterBomBusinessLogic;
 
     // Caches the OrderEntity during the conversation
-    private BillOfMaterialEntity  billOfMaterialEntity;
+    private OrderEntity  billOfMaterialEntity;
 
-    public BillOfMaterialEntity getBillOfMaterialEntity() {
+    public OrderEntity getBillOfMaterialEntity() {
         if (billOfMaterialEntity == null) {
             // Load the order entity from the database if not already cached
             billOfMaterialEntity = enterBomBusinessLogic.getBillOfMaterialEntity((Long) businessProcess.getVariable("bomId"));
@@ -57,7 +57,7 @@ public class CheckStockController
         enterBomBusinessLogic.mergeBillOfMaterialAndCompleteTask(billOfMaterialEntity);
     }
 
-    private void checkAvailability(BillOfMaterialEntity bom) {
+    private void checkAvailability(OrderEntity bom) {
         StockServiceImplService sis = new StockServiceImplService();
         StockService s = sis.getStockServiceImplPort();
         

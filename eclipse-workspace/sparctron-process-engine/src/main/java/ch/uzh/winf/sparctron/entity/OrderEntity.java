@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import ch.uzh.winf.sparctron.dao.Material;
+import ch.uzh.winf.sparctron.model.Material;
 
 
 @Entity
-public class BillOfMaterialEntity
+public class OrderEntity
         implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,9 +24,11 @@ public class BillOfMaterialEntity
 
     @Version
     protected long            version;
-    
+
     @OneToMany
     protected List<Material>  materials;
+
+    protected String          customer;
     protected String          specification;
     protected boolean         allMaterialsAvailable;
 
@@ -56,6 +58,16 @@ public class BillOfMaterialEntity
         this.materials = materials;
     }
 
+    
+    public String getCustomer() {
+        return customer;
+    }
+
+    
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
     public String getSpecification() {
         return specification;
     }
@@ -68,12 +80,12 @@ public class BillOfMaterialEntity
         return serialVersionUID;
     }
 
-    
+
     public boolean isAllMaterialsAvailable() {
         return allMaterialsAvailable;
     }
 
-    
+
     public void setAllMaterialsAvailable(boolean allMaterialsAvailable) {
         this.allMaterialsAvailable = allMaterialsAvailable;
     }
