@@ -40,6 +40,9 @@ public class EnterOrderBusinessLogic {
 
         // get process variables from form
         Map<String, Object> variables = delegateExecution.getVariables();
+        
+        orderEntity.setCustomer((String) variables.get("customer"));
+        orderEntity.setSpecification((String) variables.get("specification"));
 
         int amountOfTransistorBc547 = (Integer) variables.get("transistor-bc547");
         int amountOfTransistor2N3055 = (Integer) variables.get("transistor-2n3055");
@@ -115,19 +118,47 @@ public class EnterOrderBusinessLogic {
     }
 
     public void checkAvailability(DelegateExecution delegateExecution) {
+        persistOrderEntity(delegateExecution);
+        
         OrderEntity orderEntity = getOrderEntity((Long) delegateExecution.getVariable("orderId"));
 
         StockServiceImplService sis = new StockServiceImplService();
         StockService s = sis.getStockServiceImplPort();
 
+        boolean allMaterialsAvailable = true;
         for (Material m : orderEntity.getMaterials()) {
             if (s.getQuantityInStock(m.getId()) < 1) {
-                orderEntity.setAllMaterialsAvailable(false);
+                allMaterialsAvailable = false;
                 break;
             }
         }
 
-        orderEntity.setAllMaterialsAvailable(true);
+        orderEntity.setAllMaterialsAvailable(allMaterialsAvailable);
+        
+        entityManager.refresh(orderEntity);
+        entityManager.flush();
+    }
+    
+    public void createMaterialOrder(DelegateExecution delegateExecution) {
+        OrderEntity orderEntity = getOrderEntity((Long) delegateExecution.getVariable("orderId"));
+        
+        StockServiceImplService sis = new StockServiceImplService();
+        StockService s = sis.getStockServiceImplPort();
+        
+        // i know this is stupid, but who cares
+        for (Material m : orderEntity.getMaterials()) {
+            if (s.getQuantityInStock(m.getId()) < 1) {
+                
+                int amountOfMissingMaterial = 0;
+                for (Material mm : orderEntity.getMaterials()) {
+                    if (mm.getId() == m.getId()) {
+                        amountOfMissingMaterial++;
+                    }
+                }
+                
+                orderEntity.getMissingMaterials().put(m, amountOfMissingMaterial);
+            }
+        }
     }
 
 }

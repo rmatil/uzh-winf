@@ -45,4 +45,10 @@ public class OrderController
         // Persist updated order entity and complete task form
         enterOrderBusinessLogic.mergeOrderAndCompleteTask(orderEntity);
     }
+    
+    public void acknowledgeOrder() {
+        orderEntity.getMissingMaterials().clear();
+        
+        enterOrderBusinessLogic.mergeOrderAndCompleteTask(orderEntity);
+    }
 }

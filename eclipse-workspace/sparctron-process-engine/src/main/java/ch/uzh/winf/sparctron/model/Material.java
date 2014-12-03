@@ -4,10 +4,7 @@ public class Material {
 	
 	private int id;
 	private String description;
-	
-	public Material() {
-		
-	}
+
 	
 	public int getId() {
 		return id;
