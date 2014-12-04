@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron.entity;
+package org.camunda.bpm.sparctron.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import ch.uzh.winf.sparctron.model.Material;
+import org.camunda.bpm.sparctron.model.Material;
+
 
 
 @Entity

@@ -9,9 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.BusinessProcess;
+import org.camunda.bpm.sparctron.entity.OrderEntity;
+import org.camunda.bpm.sparctron.logic.EnterOrderBusinessLogic;
 
-import ch.uzh.winf.sparctron.entity.OrderEntity;
-import ch.uzh.winf.sparctron.logic.EnterOrderBusinessLogic;
 
 
 @Named

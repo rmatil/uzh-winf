@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron.logic;
+package org.camunda.bpm.sparctron.logic;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,11 +11,11 @@ import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.jsf.TaskForm;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.sparctron.entity.OrderEntity;
+import org.camunda.bpm.sparctron.model.Material;
 import org.camunda.bpm.stockservice.StockService;
 import org.camunda.bpm.stockservice.StockServiceImplService;
 
-import ch.uzh.winf.sparctron.entity.OrderEntity;
-import ch.uzh.winf.sparctron.model.Material;
 
 
 @Stateless

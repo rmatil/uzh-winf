@@ -1,4 +1,4 @@
-package ch.uzh.winf.sparctron.model;
+package org.camunda.bpm.sparctron.model;
 
 public class Material {
 	
