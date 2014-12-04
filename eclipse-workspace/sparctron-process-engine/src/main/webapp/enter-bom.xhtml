@@ -40,21 +40,21 @@ xmlns:f="http://java.sun.com/jsf/core">
             </h:dataTable>
         </h:panelGrid>
         <h:form id="submitForm">
-        <h:panelGrid columns="2">
-            <h3>Select materials</h3>
-                <h:messages style="color:red;margin:8px;" />
+            <h:panelGrid columns="2">
+                <h3>Select materials</h3>
+                    <h:messages style="color:red;margin:8px;" />
+                    <p>
+                        <label for="articleId">ArticleId</label>
+                        <h:inputText id="articleId" value="#{enterBomController.materialDAO.articleId}" required="true">
+                    </h:inputText>
+                </p>
                 <p>
-                    <label for="articleId">ArticleId</label>
-                    <h:inputText id="articleId" value="#{enterBomController.materialDAO.articleId}" required="true">
+                    <label for="amount">Amount</label>
+                    <h:inputText id="amount" value="#{enterBomController.materialDAO.amount}" required="true">
                 </h:inputText>
             </p>
-            <p>
-                <label for="amount">Amount</label>
-                <h:inputText id="amount" value="#{enterBomController.materialDAO.amount}" required="true">
-            </h:inputText>
-        </p>
-        <h:commandButton id="add-material-submit" value="Add material" action="#{enterBomController.addMaterial()}" />
-        </h:panelGrid>
+            <h:commandButton id="add-material-submit" value="Add material" action="#{enterBomController.addMaterial()}" />
+            </h:panelGrid>
             <!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
             NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
             -->

@@ -35,18 +35,12 @@ public class AcknowledgeOrderController
     private OrderBusinessLogic orderBusinessLogic;
 
     private OrderDAO           orderDAO;
-    
-    public AcknowledgeOrderController() {
-        long orderId = businessProcess.getVariable("orderId");
-        orderDAO = orderBusinessLogic.getOrderDAO(orderId);
-    }
-
+   
     public OrderDAO getOrderDAO() {
-        return orderDAO;
-    }
+        long orderId = businessProcess.getVariable("orderId");
+        this.orderDAO = orderBusinessLogic.getOrderDAO(orderId);
 
-    public void setOrderDAO(OrderDAO orderDAO) {
-        this.orderDAO = orderDAO;
+        return this.orderDAO;
     }
 
     public void acknowledgeOrder()

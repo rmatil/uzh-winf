@@ -66,6 +66,7 @@ public class EnterBomController
 
         // update orderDAO to represent the new added material on view
         materialDAO = new MaterialDAO(); // reset values
+        
         long orderId = businessProcess.getVariable("orderId");
         orderDAO = orderBusinessLogic.getOrderDAO(orderId);
     }

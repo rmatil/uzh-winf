@@ -25,35 +25,8 @@ xmlns:f="http://java.sun.com/jsf/core">
             <label for="specification">Specification:   </label>
             <h:outputText id="specification" value="#{acknowledgeOrderController.orderDAO.specification}" />
         </p>
-
-        <h3>Bill of Material: missing materials</h3>
         <h:form id="submitForm">
-            <h:dataTable id="ack-table" value="#{acknowledgeOrderController.orderDAO.missingMaterials}" var="entry" border="1">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="ArticleId" />
-                    </f:facet>
-                    <h:outputText value="#{entry.material.articleId}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Description" />
-                    </f:facet>
-                    <h:outputText value="#{entry.material.description}" />
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Amount" />
-                    </f:facet>
-                    <h:outputText value="#{entry.amountMissing}" />
-                </h:column>
-            </h:dataTable>
-            <!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
-
-            NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
-            -->
             <h:commandButton id="submit_button" value="Acknowledge order" action="#{acknowledgeOrderController.acknowledgeOrder()}" />
-
             <h:messages style="color:red;margin:8px;" />
         </h:form>
     </h:body>
