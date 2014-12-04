@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_kEkocHlHEeS1ZqTKZmX9Sg" exporter="camunda modeler" exporterVersion="2.6.0" targetNamespace="http://activiti.org/bpmn">
-  <bpmn2:process id="Process_1" name="BOM" isExecutable="true">
+  <bpmn2:process id="Process_1" name="sparctron-process" isExecutable="true">
     <bpmn2:startEvent id="StartEvent_1" camunda:formKey="app:start-process.jsf" name="Start Process">
       <bpmn2:outgoing>SequenceFlow_14</bpmn2:outgoing>
     </bpmn2:startEvent>
-    <bpmn2:userTask id="UserTask_1" camunda:assignee="John Doe" camunda:formKey="app:define-specification.jsf" name="Define Specification">
+    <bpmn2:userTask id="UserTask_1" camunda:formKey="app:define-specification.jsf" camunda:candidateGroups="boss" name="Define Specification">
       <bpmn2:incoming>SequenceFlow_14</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
     </bpmn2:userTask>
-    <bpmn2:serviceTask id="ServiceTask_1" camunda:expression="${enterOrderBusinessLogic.checkAvailability(execution)}" name="Check stock">
+    <bpmn2:serviceTask id="ServiceTask_1" camunda:expression="${checkStockController.checkStock(execution)}" name="Check stock">
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
     </bpmn2:serviceTask>
@@ -19,16 +19,16 @@
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_4" name="" sourceRef="ServiceTask_1" targetRef="ExclusiveGateway_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_6" name="yes" sourceRef="ExclusiveGateway_1" targetRef="ExclusiveGateway_2">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${enterOrderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${orderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="no" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_3">
-      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${not enterOrderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${not orderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
     <bpmn2:serviceTask id="ServiceTask_3" camunda:expression="$(enterOrderBusinessLogic.createMaterialOrder(execution))" name="Create Order">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:userTask id="UserTask_3" camunda:assignee="John Doe" camunda:formKey="app:acknowledge-order.jsf" name="Acknowledge Order">
+    <bpmn2:userTask id="UserTask_3" camunda:formKey="app:acknowledge-order.jsf" camunda:candidateGroups="electricians" name="Acknowledge Order">
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -39,7 +39,7 @@
       <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
-    <bpmn2:userTask id="UserTask_4" camunda:assignee="John Doe" camunda:formKey="app:build-prototype.jsf" name="Build Prototype">
+    <bpmn2:userTask id="UserTask_4" camunda:formKey="app:build-prototype.jsf" camunda:candidateGroups="electricians" name="Build Prototype">
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -54,7 +54,7 @@
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_12" name="" sourceRef="UserTask_5" targetRef="EndEvent_1"/>
     <bpmn2:sequenceFlow id="SequenceFlow_14" name="" sourceRef="StartEvent_1" targetRef="UserTask_1"/>
-    <bpmn2:userTask id="UserTask_2" camunda:assignee="John Doe" camunda:formKey="app:enter-bom.jsf" name="Enter BOM">
+    <bpmn2:userTask id="UserTask_2" camunda:formKey="app:enter-bom.jsf" camunda:candidateGroups="electricians" name="Enter BOM">
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
     </bpmn2:userTask>

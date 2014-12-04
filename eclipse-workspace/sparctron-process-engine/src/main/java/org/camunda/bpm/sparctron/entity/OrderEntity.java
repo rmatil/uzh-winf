@@ -2,17 +2,16 @@ package org.camunda.bpm.sparctron.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import org.camunda.bpm.sparctron.model.Material;
 
 
 
@@ -20,26 +19,33 @@ import org.camunda.bpm.sparctron.model.Material;
 public class OrderEntity
         implements Serializable {
 
-    private static final long        serialVersionUID = 1L;
+    private static final long             serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
-    protected Long                   id;
+    protected Long                        id;
 
     @Version
-    protected long                   version;
+    protected long                        version;
 
-    @OneToMany
-    protected List<Material>         materials;
+    @OneToMany(cascade = CascadeType.ALL)
+    protected List<MaterialEntity>        materials;
 
-    protected Map<Material, Integer> missingMaterials;
-    protected String                 customer;
-    protected String                 specification;
-    protected boolean                allMaterialsAvailable;
+    @OneToMany(cascade = CascadeType.ALL)
+    protected List<MissingMaterialEntity> missingMaterials;
+
+    @Column
+    protected String                      customer;
+
+    @Column
+    protected String                      specification;
+
+    @Column
+    protected boolean                     allMaterialsAvailable;
 
     public OrderEntity() {
-        materials = new ArrayList<Material>();
-        missingMaterials = new HashMap<Material, Integer>();
+        materials = new ArrayList<MaterialEntity>();
+        missingMaterials = new ArrayList<MissingMaterialEntity>();
     }
 
     public Long getId() {
@@ -58,22 +64,22 @@ public class OrderEntity
         this.version = version;
     }
 
-    public List<Material> getMaterials() {
+    public List<MaterialEntity> getMaterials() {
         return materials;
     }
 
-    public void setMaterials(List<Material> materials) {
+    public void setMaterials(List<MaterialEntity> materials) {
         this.materials = materials;
     }
 
 
 
-    public Map<Material, Integer> getMissingMaterials() {
+    public List<MissingMaterialEntity> getMissingMaterials() {
         return missingMaterials;
     }
 
 
-    public void setMissingMaterials(Map<Material, Integer> missingMaterials) {
+    public void setMissingMaterials(List<MissingMaterialEntity> missingMaterials) {
         this.missingMaterials = missingMaterials;
     }
 

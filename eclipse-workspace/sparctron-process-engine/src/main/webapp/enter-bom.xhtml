@@ -12,47 +12,53 @@ xmlns:f="http://java.sun.com/jsf/core">
     <f:event type="preRenderView" listener="#{camundaTaskForm.startTaskForm()}" />
     </f:metadata>
     <h:head>
-        <title>Specify BOM</title>
+        <title>Specify Bill of Materials</title>
     </h:head>
     <h:body>
-        <h1>Select necessary Materials </h1>
+        <h1>Selected materials for order</h1>
+        <h3>Bill of Material</h3>
+        <h:panelGrid columns="1">
+            <h:dataTable id="bom-table" value="#{enterBomController.orderDAO.materials}" var="entry" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="ArticleId" />
+                    </f:facet>
+                    <h:outputText value="#{entry.articleId}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Description" />
+                    </f:facet>
+                    <h:outputText value="#{entry.description}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Amount" />
+                    </f:facet>
+                    <h:outputText value="#{entry.amount}" />
+                </h:column>
+            </h:dataTable>
+        </h:panelGrid>
         <h:form id="submitForm">
-            <h:panelGrid columns="2">
+        <h:panelGrid columns="2">
+            <h3>Select materials</h3>
+                <h:messages style="color:red;margin:8px;" />
                 <p>
-                    <label for="material1">Transistor BC547</label>
-                    <!-- create process variables using the processVariables map. -->
-                    <h:inputText type="number" id="material1" value="#{processVariables['transistor-bc547']}" required="true" />
-                    </h:selectOneMenu>
-                </p>
-                <p>
-                    <label for="material1">Transistor 2N3055</label>
-                    <!-- create process variables using the processVariables map. -->
-                    <h:inputText type="number" id="material1" value="#{processVariables['transistor-2n3055']}" required="true" />
-                </h:selectOneMenu>
-                </p>
-                <p>
-                    <label for="material1">Diode 1N4004</label>
-                    <!-- create process variables using the processVariables map. -->
-                    <h:inputText type="number" id="material1" value="#{processVariables['diode-1n4004']}" required="true" />
-                </h:selectOneMenu>
-                </p>
-                <p>
-                    <label for="material1">Kondensator 100uF</label>
-                    <!-- create process variables using the processVariables map. -->
-                    <h:inputText type="number" id="material1" value="#{processVariables['kondensator-100uf']}" required="true" />
-                </h:selectOneMenu>
-                </p>
-                <p>
-                    <label for="material1">Widerstand Kohleschicht 470 Ohm 5%</label>
-                    <!-- create process variables using the processVariables map. -->
-                    <h:inputText type="number" id="material1" value="#{processVariables['widerstand-kohleschicht-470']}" required="true" />
-                </h:selectOneMenu>
-                </p>
-            </h:panelGrid>
+                    <label for="articleId">ArticleId</label>
+                    <h:inputText id="articleId" value="#{enterBomController.materialDAO.articleId}" required="true">
+                </h:inputText>
+            </p>
+            <p>
+                <label for="amount">Amount</label>
+                <h:inputText id="amount" value="#{enterBomController.materialDAO.amount}" required="true">
+            </h:inputText>
+        </p>
+        <h:commandButton id="add-material-submit" value="Add material" action="#{enterBomController.addMaterial()}" />
+        </h:panelGrid>
             <!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
             NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
             -->
-            <h:commandButton id="submit_button" value="Check availability" action="#{orderController.submitForm()}" />
+            <h:commandButton id="submit_button" value="Check availability" action="#{camundaTaskForm.completeTask()}" />
             <h:messages style="color:red;margin:8px;" />
         </h:form>
     </h:body>

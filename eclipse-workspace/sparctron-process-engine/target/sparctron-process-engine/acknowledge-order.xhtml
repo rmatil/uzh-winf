@@ -5,47 +5,45 @@ xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core">
 
 <f:view>
-<f:metadata>
-<!-- Start a new process instance. The Process Definition Key is read internally from
-request parameters and cached in the CDI conversation scope.
--->
-<f:event type="preRenderView" listener="#{camundaTaskForm.startTaskForm()}" />
-</f:metadata>
-<h:head>
-<title>Acknowledge order</title>
-</h:head>
-<h:body>
-<h1>Order overview</h1>
-<h:form id="submitForm">
-<h:panelGrid columns="2">
-<p>
-    <h:dataTable value="#{orderEntity.missingMaterials.entrySet().toArray()}" var="entry">
-        <h:column>
-            <f:facet name="header">Material articlenumber</f:facet>
-            #{entry.id}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Material description</f:facet>
-            #{entry.description}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Amount to order</f:facet>
-            #{entry.value}
-        </h:column>
-    </h:dataTable>
-</p>
+    <f:metadata>
+    <!-- Start a new process instance. The Process Definition Key is read internally from
+    request parameters and cached in the CDI conversation scope.
+    -->
+        <f:event type="preRenderView" listener="#{camundaTaskForm.startTaskForm()}" />
+    </f:metadata>
+    <h:head>
+        <title>Acknowledge order</title>
+    </h:head>
+    <h:body>
+        <h1>Order overview</h1>
+        <h:form id="submitForm">
+            <h:panelGrid columns="2">
+                <p>
+                    <h:dataTable value="#{acknowledgeOrderController.orderDAO.missingMaterials}" var="entry">
+                        <h:column>
+                            <f:facet name="header">Material articlenumber</f:facet>
+                            #{entry.missingMaterial.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Material description</f:facet>
+                            #{entry.missingMaterial.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Amount to order</f:facet>
+                            #{entry.amountsMissing}
+                        </h:column>
+                    </h:dataTable>
+                </p>
+            </h:panelGrid>
 
+            <!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
 
-</h:panelGrid>
+            NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
+            -->
+            <h:commandButton id="submit_button" value="Acknowledge order" action="#{acknowledgeOrderController.acknowledgeOrder()}" />
 
-<!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
-
-NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".
--->
-<h:commandButton id="submit_button" value="Acknowledge order" action="#{orderController.acknowledgeOrder()}" />
-
-<h:messages style="color:red;margin:8px;" />
-</h:form>
-</h:body>
+            <h:messages style="color:red;margin:8px;" />
+        </h:form>
+    </h:body>
 </f:view>
 </html>
