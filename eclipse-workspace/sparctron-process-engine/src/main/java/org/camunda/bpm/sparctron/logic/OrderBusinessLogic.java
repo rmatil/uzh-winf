@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.jsf.TaskForm;
 import org.camunda.bpm.sparctron.dao.MaterialDAO;
+import org.camunda.bpm.sparctron.dao.MissingMaterialDAO;
 import org.camunda.bpm.sparctron.dao.OrderDAO;
 import org.camunda.bpm.sparctron.entity.MaterialEntity;
 import org.camunda.bpm.sparctron.entity.MissingMaterialEntity;
@@ -82,6 +83,20 @@ public class OrderBusinessLogic {
             materialDAO.setDescription(material.getDescription());
             
             orderDAO.getMaterials().add(materialDAO);
+        }
+        
+        for (MissingMaterialEntity missingMaterial : orderEntity.getMissingMaterials()) {
+            MissingMaterialDAO mmDAO = new MissingMaterialDAO();
+            mmDAO.setAmountMissing(missingMaterial.getAmountsMissing());
+            
+            MaterialDAO m = new MaterialDAO();
+            m.setAmount(missingMaterial.getMaterial().getAmount());
+            m.setArticleId(missingMaterial.getMaterial().getArticleId());
+            m.setDescription(missingMaterial.getMaterial().getDescription());
+            
+            mmDAO.setMaterial(m);
+            
+            orderDAO.getMissingMaterials().add(mmDAO);
         }
         
         return orderDAO;

@@ -22,15 +22,15 @@ xmlns:f="http://java.sun.com/jsf/core">
                     <h:dataTable value="#{acknowledgeOrderController.orderDAO.missingMaterials}" var="entry">
                         <h:column>
                             <f:facet name="header">Material articlenumber</f:facet>
-                            #{entry.missingMaterial.id}
+                            #{entry.material.articleId}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Material description</f:facet>
-                            #{entry.missingMaterial.description}
+                            #{entry.material.description}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Amount to order</f:facet>
-                            #{entry.amountsMissing}
+                            #{entry.amountMissing}
                         </h:column>
                     </h:dataTable>
                 </p>

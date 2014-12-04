@@ -36,7 +36,7 @@ public class AcknowledgeOrderController
 
     private OrderDAO           orderDAO;
 
-    public OrderDAO getOderDAO() {
+    public OrderDAO getOrderDAO() {
         if (null == orderDAO) {
             long orderId = businessProcess.getVariable("orderId");
             orderDAO = orderBusinessLogic.getOrderDAO(orderId);
