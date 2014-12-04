@@ -11,11 +11,11 @@ import javax.persistence.PersistenceContext;
 
 import org.camunda.bpm.engine.cdi.jsf.TaskForm;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.stockservice.StockService;
+import org.camunda.bpm.stockservice.StockServiceImplService;
 
 import ch.uzh.winf.sparctron.entity.OrderEntity;
 import ch.uzh.winf.sparctron.model.Material;
-import ch.uzh.winf.stockservice.StockService;
-import ch.uzh.winf.stockservice.StockServiceImplService;
 
 
 @Stateless
