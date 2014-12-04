@@ -1,5 +1,5 @@
 #surefire
-#Thu Dec 04 17:04:26 CET 2014
+#Thu Dec 04 18:20:20 CET 2014
 dirscanner.0.params=/Users/Raphael/Documents/projects/uzh/winf-workspace/eclipse-workspace/sparctron-process-engine/target/test-classes|[**/Test*.java, **/*Test.java, **/*TestCase.java]|[**/*$*]
 enableAssertions=true
 testSuiteDefinitionTestSourceDirectory=/Users/Raphael/Documents/projects/uzh/winf-workspace/eclipse-workspace/sparctron-process-engine/src/test/java

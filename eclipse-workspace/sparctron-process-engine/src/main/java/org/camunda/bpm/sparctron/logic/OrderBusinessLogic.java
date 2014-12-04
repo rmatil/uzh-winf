@@ -56,6 +56,8 @@ public class OrderBusinessLogic {
             throw new RuntimeException("Material with id " + material.getArticleId() + " not found");
         }
         
+        entityManager.persist(material);
+        
         OrderEntity orderEntity = getOrderEntity(orderEntityId);
         orderEntity.getMaterials().add(material);
         
@@ -133,7 +135,12 @@ public class OrderBusinessLogic {
                 MissingMaterialEntity mm = new MissingMaterialEntity();
                 
                 mm.setAmountsMissing(materialEntity.getAmount() - amountAvailable);
+                mm.setMaterial(materialEntity);
+                
                 orderEntity.getMissingMaterials().add(mm);
+                
+                entityManager.merge(orderEntity);
+                entityManager.flush();
             }
         }
         
@@ -150,24 +157,15 @@ public class OrderBusinessLogic {
         entityManager.flush();
     }
 
-    /**
-     * Get BillOfMaterialEntity by its id
-     * 
-     * @param specificationId
-     * @return SpecificationEntity
-     */
     public OrderEntity getOrderEntity(Long orderId) {
         return entityManager.find(OrderEntity.class, orderId);
     }
 
-    /**
-     * Merges MergeBillOfMaterialEntity and completes taskForm
-     * 
-     * @param orderEntity
-     */
+  
     public void mergeOrderAndCompleteTask(OrderEntity orderEntity) {
         entityManager.merge(orderEntity);
-
+        entityManager.flush();
+        
         try {
             taskForm.completeTask();
         } catch (IOException ioe) {

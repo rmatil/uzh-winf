@@ -16,26 +16,38 @@ xmlns:f="http://java.sun.com/jsf/core">
     </h:head>
     <h:body>
         <h1>Order overview</h1>
-        <h:form id="submitForm">
-            <h:panelGrid columns="2">
-                <p>
-                    <h:dataTable value="#{acknowledgeOrderController.orderDAO.missingMaterials}" var="entry">
-                        <h:column>
-                            <f:facet name="header">Material articlenumber</f:facet>
-                            #{entry.material.articleId}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Material description</f:facet>
-                            #{entry.material.description}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Amount to order</f:facet>
-                            #{entry.amountMissing}
-                        </h:column>
-                    </h:dataTable>
-                </p>
-            </h:panelGrid>
+        <p>
 
+            <label for="customer">Customer:     </label>
+            <h:outputText id="customer" value="#{acknowledgeOrderController.orderDAO.customer}" />
+        </p>
+        <p>
+            <label for="specification">Specification:   </label>
+            <h:outputText id="specification" value="#{acknowledgeOrderController.orderDAO.specification}" />
+        </p>
+
+        <h3>Bill of Material: missing materials</h3>
+        <h:form id="submitForm">
+            <h:dataTable id="ack-table" value="#{acknowledgeOrderController.orderDAO.missingMaterials}" var="entry" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="ArticleId" />
+                    </f:facet>
+                    <h:outputText value="#{entry.material.articleId}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Description" />
+                    </f:facet>
+                    <h:outputText value="#{entry.material.description}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Amount" />
+                    </f:facet>
+                    <h:outputText value="#{entry.amountMissing}" />
+                </h:column>
+            </h:dataTable>
             <!-- The button starts a new process instance. This ends the conversation and redirects us to the tasklist.
 
             NOTE: Syntax is different when working on user task forms, see file "approveLoanRequest.xhtml".

@@ -35,13 +35,13 @@ public class AcknowledgeOrderController
     private OrderBusinessLogic orderBusinessLogic;
 
     private OrderDAO           orderDAO;
+    
+    public AcknowledgeOrderController() {
+        long orderId = businessProcess.getVariable("orderId");
+        orderDAO = orderBusinessLogic.getOrderDAO(orderId);
+    }
 
     public OrderDAO getOrderDAO() {
-        if (null == orderDAO) {
-            long orderId = businessProcess.getVariable("orderId");
-            orderDAO = orderBusinessLogic.getOrderDAO(orderId);
-        }
-
         return orderDAO;
     }
 
@@ -49,10 +49,11 @@ public class AcknowledgeOrderController
         this.orderDAO = orderDAO;
     }
 
-    public void acknowledgeOrder() {
+    public void acknowledgeOrder()
+            throws IOException {
         long orderId = businessProcess.getVariable("orderId");
         orderBusinessLogic.acknowledgeOrder(orderId);
-        
+
         try {
             taskForm.completeTask();
         } catch (IOException ioe) {

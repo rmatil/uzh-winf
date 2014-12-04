@@ -24,7 +24,7 @@
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="no" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_3">
       <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${not orderBusinessLogic.getOrderEntity(orderId).allMaterialsAvailable}</bpmn2:conditionExpression>
     </bpmn2:sequenceFlow>
-    <bpmn2:serviceTask id="ServiceTask_3" camunda:expression="$(enterOrderBusinessLogic.createMaterialOrder(execution))" name="Create Order">
+    <bpmn2:serviceTask id="ServiceTask_3" camunda:expression="$(createOrderController.createOrder(execution))" name="Create Order">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
     </bpmn2:serviceTask>
